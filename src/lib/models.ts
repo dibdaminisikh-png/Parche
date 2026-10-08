@@ -1,0 +1,25 @@
+export type Status = 'draft'|'published'|'archived'|'scheduled';
+export type EntityType = 'product'|'category'|'article'|'collection'|'brand'|'page'|'landing'|'settings'|'homepage'|'navigation'|'attribute'|'coupon'|'review'|'question'|'notification'|'media'|'role';
+export interface SEO { title:string; description:string; canonical?:string; index:boolean; follow?:boolean; ogTitle?:string; ogDescription?:string; image?:string }
+export interface Block { id:string; type:'heading'|'paragraph'|'image'|'quote'|'list'|'faq'|'product'|'category'|'callout'|'table'|'video'|'button'; text:string; level?:2|3; items?:string[]; ref?:string; src?:string; alt?:string; rows?:string[][] }
+export interface FAQ { question:string; answer:string }
+export interface Base { id:string; type:EntityType; name:string; slug:string; status:Status; version:number; updatedAt:string; seo:SEO; [key:string]:unknown }
+export interface Variant { id:string; name:string; color:string; sku:string; price:number; inventoryCm:number; reservedCm:number; image:string; active:boolean }
+export interface Product extends Base { type:'product'; sku:string; categoryIds:string[]; brandId:string; collectionIds:string[]; price:number; compareAt:number; minCm:number; stepCm:number; widthCm:number; image:string; imageIndex:number; images:string[]; variants:Variant[]; attributes:Record<string,string>; description:string; blocks:Block[]; faqs:FAQ[]; relatedIds:string[]; badge?:string }
+export interface Category extends Base { type:'category'; path:string; parentId:string|null; image:string; description:string; blocks:Block[]; faqs:FAQ[]; showHome:boolean; showMenu:boolean; position:number }
+export interface Article extends Base { type:'article'; title:string; excerpt:string; category:string; categorySlug:string; author:string; authorBio:string; readMinutes:number; image:string; blocks:Block[]; faqs:FAQ[]; productIds:string[]; categoryIds:string[]; relatedIds:string[]; tags:string[]; publishedAt:string }
+export interface Section { id:string; kind:'hero'|'categories'|'products'|'collection'|'articles'|'trust'|'faq'|'testimonials'|'banner'; title:string; subtitle:string; visible:boolean; ids:string[]; background:string; image?:string; schedule?:string }
+export interface SiteSettings extends Base { type:'settings'; brand:string; tagline:string; phone:string; address:string; announcement:string; shippingText:string; email:string; currency:string; logo:string; footerLinks:{label:string;href:string}[]; socials:{label:string;href:string}[]; demo:boolean }
+export interface Attribute extends Base { type:'attribute'; key:string; input:'select'|'text'|'number'|'boolean'; options:string[]; filterable:boolean; unit?:string }
+export interface CartLine { id:string; productId:string; variantId:string; quantityCm:number }
+export interface Order { id:string; number:string; customer:string; phone:string; address:string; lines:{productId:string;variantId:string;name:string;quantityCm:number;price:number;total:number}[]; total:number; subtotal:number; shipping:number; discount:number; coupon:string; status:string; paymentStatus:string; createdAt:string; owner:string; trackingCode:string; notes:string; timeline:{status:string;time:string;actor:string}[] }
+export interface Dataset { products:Product[]; categories:Category[]; articles:Article[]; entities:Base[]; settings:SiteSettings; sections:Section[]; navigation:{title:string;links:{label:string;href:string}[]}[]; attributes:Attribute[]; cart:CartLine[]; orders:Order[]; audit:Audit[]; user:{id:string;name:string;role:string}|null; revisions:Revision[] }
+export interface Audit { id:string; actor:string; action:string; entity:string; before:string; after:string; createdAt:string }
+export interface Revision { id:string;entityId:string;version:number;data:string;actor:string;createdAt:string }
+export const currency=(n:number)=>new Intl.NumberFormat('fa-IR').format(Math.round(n));
+export const number=(n:number)=>new Intl.NumberFormat('fa-IR',{maximumFractionDigits:2}).format(n);
+export const productPath=(p:Product)=>`/product/${p.slug}/`;
+export const articlePath=(a:Article)=>`/magazine/${a.slug}/`;
+export const categoryPath=(c:Category)=>c.path;
+export const permissions:Record<string,string[]>={super_admin:['*'],admin:['content.write','products.write','orders.write','seo.write','media.write','inventory.write','reviews.write','discounts.write','settings.write'],content_manager:['content.write','media.write'],seo_manager:['seo.write'],product_manager:['products.write','inventory.write','media.write'],order_manager:['orders.write'],support:['reviews.write'],editor:['content.draft']};
+export function requiredPermission(type:string){return ['product','category','attribute','brand','collection'].includes(type)?'products.write':['article','page','landing','homepage','navigation'].includes(type)?'content.write':type==='coupon'?'discounts.write':type==='review'||type==='question'?'reviews.write':type==='media'?'media.write':type==='role'?'users.write':'settings.write'}

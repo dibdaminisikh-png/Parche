@@ -1,0 +1,15 @@
+import {sql} from 'drizzle-orm';
+import {sqliteTable,text,integer,index,uniqueIndex,check} from 'drizzle-orm/sqlite-core';
+export const documents=sqliteTable('documents',{id:text('id').primaryKey(),type:text('type').notNull(),slug:text('slug').notNull(),name:text('name').notNull(),status:text('status').notNull(),data:text('data').notNull(),version:integer('version').notNull().default(1),updatedAt:text('updated_at').notNull() },t=>[index('idx_documents_type_status').on(t.type,t.status),uniqueIndex('idx_documents_type_slug').on(t.type,t.slug)]);
+export const revisions=sqliteTable('revisions',{id:text('id').primaryKey(),entityId:text('entity_id').notNull(),version:integer('version').notNull(),data:text('data').notNull(),actor:text('actor').notNull(),createdAt:text('created_at').notNull()},t=>[index('idx_revisions_entity').on(t.entityId,t.version)]);
+export const audit=sqliteTable('audit',{id:text('id').primaryKey(),actor:text('actor').notNull(),action:text('action').notNull(),entity:text('entity').notNull(),before:text('before').notNull(),after:text('after').notNull(),createdAt:text('created_at').notNull()},t=>[index('idx_audit_created').on(t.createdAt)]);
+export const cartLines=sqliteTable('cart_lines',{id:text('id').primaryKey(),owner:text('owner').notNull(),productId:text('product_id').notNull(),variantId:text('variant_id').notNull(),quantityCm:integer('quantity_cm').notNull()},t=>[index('idx_cart_owner').on(t.owner),uniqueIndex('idx_cart_owner_variant').on(t.owner,t.variantId)]);
+export const orders=sqliteTable('orders',{id:text('id').primaryKey(),owner:text('owner').notNull(),number:text('number').notNull(),status:text('status').notNull(),data:text('data').notNull(),createdAt:text('created_at').notNull()},t=>[index('idx_orders_owner').on(t.owner),index('idx_orders_status_date').on(t.status,t.createdAt)]);
+export const memberships=sqliteTable('memberships',{id:text('id').primaryKey(),name:text('name').notNull(),role:text('role').notNull(),active:integer('active').notNull().default(1)});
+export const preferences=sqliteTable('preferences',{owner:text('owner').primaryKey(),data:text('data').notNull()});
+export const redirects=sqliteTable('redirects',{id:text('id').primaryKey(),source:text('source').notNull().unique(),target:text('target').notNull(),code:integer('code').notNull().default(301)});
+export const searchEvents=sqliteTable('search_events',{id:text('id').primaryKey(),term:text('term').notNull(),results:integer('results').notNull(),createdAt:text('created_at').notNull()},t=>[index('idx_search_term').on(t.term)]);
+export const rateLimits=sqliteTable('rate_limits',{id:text('id').primaryKey(),count:integer('count').notNull(),expires:integer('expires').notNull()});
+export const workingDrafts=sqliteTable('working_drafts',{entityId:text('entity_id').primaryKey(),data:text('data').notNull(),actor:text('actor').notNull(),updatedAt:text('updated_at').notNull()});
+
+export const optimisticLocks=sqliteTable('optimistic_locks',{id:text('id').primaryKey(),expected:integer('expected').notNull(),actual:integer('actual').notNull()},t=>[check('valid_version',sql`${t.expected} = ${t.actual}`)]);

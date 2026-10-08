@@ -1,0 +1,3 @@
+import {defineConfig} from 'vite';
+import react from '@vitejs/plugin-react';
+export default defineConfig(({isSsrBuild})=>({plugins:[],esbuild:{jsx:'automatic'},build:isSsrBuild?{outDir:'dist/server',emptyOutDir:true,ssr:true,rollupOptions:{output:{entryFileNames:'index.js'}}}:{outDir:'dist/client',emptyOutDir:true,manifest:true,rollupOptions:{input:'src/client.tsx',output:{manualChunks:{react:['react','react-dom','react-dom/client']}}}},ssr:{noExternal:isSsrBuild?['react','react-dom','lucide-react','zod']:['lucide-react','zod']}}));
