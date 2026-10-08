@@ -27,3 +27,13 @@ Performance synthetic mobile با CPU 4× و network 1.6Mbps/150ms در فایل
 - ۱۲۷ فایل HTML مستقیم با status 200، یک H1 و noindex,nofollow؛ تمام href/src/action و فونت‌ها زیر /Parche/ بررسی شدند.
 - Playwright: سبد ۲٫۵ متری، Checkout محلی، autosave/preview/publish/reload، استقلال مرورگر دوم، upload تصویر IndexedDB و بازیابی آن، جستجو query-based، ۹ layout موبایل و reset موفق. خطای JavaScript صفر.
 - Build سروری Worker/Node نیز حفظ شده و موفق است. این نتایج Pages آزمون production backend یا Field CWV نیستند.
+
+## بازطراحی پالت صورتی
+
+- ساختار صفحات، داده‌ها و API حفظ شدند؛ تم فروشگاه و CMS، favicon و theme-color هماهنگ شدند.
+- Typecheck، تست‌های موجود و build:pages موفق؛ خروجی همچنان ۱۲۷ صفحه کامل است.
+- مسیر خرید، autosave/preview/publish، رسانه، جستجو و ۹ نمایش موبایل در Pages دوباره موفق بودند؛ بدون خطای JavaScript.
+- ۲۰ بررسی نمایش در عرض‌های ۳۲۰، ۳۹۰، ۷۶۸ و ۱۴۴۰ پیکسل برای Home، Category، Product، Dashboard و Product Editor بدون overflow موفق شد. سربرگ Editor در موبایل عنوان را در فضای موجود کوتاه می‌کند.
+- کنترل مقدار و انتخاب رنگ موبایل حداقل ۴۴×۴۴px؛ focus جستجو با outline ۲px در مرورگر بررسی شد.
+- نسبت کنتراست محاسبه‌شده: متن سفید دکمه روی زرشکی ۷٫۷۲، متن اصلی روی زمینه صورتی ۱۳٫۵۱، متن فرعی ۵٫۲۷، accent متنی ۴٫۸۵ و مرز کنترل فرم روی سفید ۳٫۲۲. این بررسی رنگ و رفتار، گواهی کامل WCAG یا مطالعه کاربری نیست.
+- CSS مشترک gzip حدود ۱۶٫۲۴KB؛ JavaScript جدیدی برای بازطراحی اضافه نشده است.
