@@ -14,7 +14,7 @@
 - لیست محصول/مقاله با جستجو و pagination سمت سرور؛ bulk انتشار/بایگانی/حذف؛ API bulk قیمت/موجودی/دسته؛ CSV validation/preview/per-row import و export.
 - سفارش‌ها، مشتریان مشتق‌شده از سفارش مجاز، موجودی Variant و ثبت تغییر در Audit، moderation Review/Q&A و پیام تماس.
 - RBAC سرور، Custom Role، مالک احراز‌شده خصوصی، CSRF/origin check، rate limiting، prepared SQL، اعتبارسنجی typed محتوا و optimistic version guard اتمی.
-- Sitemap index و نقشه صفحات/محصولات/مقالات، metadata و JSON-LD معتبر؛ ریال = تومان ×۱۰، بدون AggregateRating ساختگی. در demo Offer قیمت واقعی منتشر نمی‌شود.
+- Sitemap index و نقشه صفحات/محصولات/مقالات، metadata و JSON-LD با آزمون سازگاری نمونه؛ ریال = تومان ×۱۰، بدون AggregateRating ساختگی. در demo Offer قیمت واقعی منتشر نمی‌شود.
 - تصاویر AVIF/WebP با اندازه رزروشده و srcset، فونت Vazirmatn دارای OFL و self-host، chunk فروشگاه/Admin جدا، reduced motion و keyboard/focus.
 - Worker fetch و adapter Node/SQLite قابل اجرا بدون Cloudflare؛ مرز API/Repository برای انتقال به PostgreSQL/S3.
 
@@ -27,7 +27,7 @@
 - published snapshot/draft برای category و builders، autosave همه builderها، مدیریت پوشش ده‌هاهزار رکورد فروشگاه به‌صورت query-driven server grid؛ SSR فعلی dataset نمونه را با سقف ۵۰۰ document بارگیری می‌کند. Admin lists از API pagination استفاده می‌کنند؛ ادعای آزمون بار تولید وجود ندارد.
 - taxonomy کامل ۱۲ موضوع تخصصی مجله و تمام زیرنوع‌ها؛ این مرحله برای هر Page Type نمونه کامل ارائه می‌دهد، نه تولید ده‌هاهزار محصول یا مقاله.
 - گزارش خودکار orphan/لینک شکسته/alt سراسری، 404های پرتکرار، notification read state و search-engine اختصاصی.
-- Field Core Web Vitals/RUM، CDN مستقل و cache عمومی HTML متکی به snapshot (HTML preview خصوصی no-store است تا داده کاربران cache نشود).
+- Field Core Web Vitals/RUM، CDN مستقل و cache عمومی HTML متکی به snapshot (صفحات دارای داده شخصی و پیش‌نمایش پیش از انتشار private/no-store هستند).
 
 ## دسترسی و استقرار
 پیش‌نمایش Sites خصوصی است؛ فروشگاه و مدیریت در / و /admin/ روی یک host قرار دارند. APP_SURFACE=storefront|admin برای بسته‌های جدا و reverse-proxy API پیش‌بینی شده است. ارائه دامنه مستقل واقعی بدون domain و provider امکان‌پذیر نیست. Node production بدون LOCAL_DEV به adapter هویت trusted reverse proxy نیاز دارد؛ LOCAL_DEV فقط برای localhost آزمایش است و برای شبکه عمومی استفاده نمی‌شود.
