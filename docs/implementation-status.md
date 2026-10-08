@@ -33,3 +33,6 @@
 پیش‌نمایش Sites خصوصی است؛ فروشگاه و مدیریت در / و /admin/ روی یک host قرار دارند. APP_SURFACE=storefront|admin برای بسته‌های جدا و reverse-proxy API پیش‌بینی شده است. ارائه دامنه مستقل واقعی بدون domain و provider امکان‌پذیر نیست. Node production بدون LOCAL_DEV به adapter هویت trusted reverse proxy نیاز دارد؛ LOCAL_DEV فقط برای localhost آزمایش است و برای شبکه عمومی استفاده نمی‌شود.
 
 راهنما و Schema نهایی در architecture.md و cms-production-architecture.md آمده‌اند. ویژگی‌هایی که سرویس متصل ندارند در UI وضعیت نیازمند اتصال دارند؛ موفقیت پرداخت، backup یا analytics جعلی نمایش داده نمی‌شود.
+
+## استقرار تست Pages
+طبق درخواست جدید، build مستقل استاتیک و پنل `/Parche/cms/` افزوده شد. محتوای اولیه همه نمونه‌ها در HTML موجود است؛ داده‌های تمیز seed صادر می‌شوند و هیچ SQLite، session یا credential در Pages قرار نمی‌گیرد. تغییرات CMS صرفاً browser-local هستند. Auth/RBAC واقعی، publish عمومی تغییرات، API، ارسال و پرداخت نیازمند هاست و backend باقی می‌مانند. `/cms/` در نسخه سرور alias مدیریت است و ساب‌دامنه بعداً قابل تنظیم است.

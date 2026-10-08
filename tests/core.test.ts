@@ -10,7 +10,7 @@ test('SSR resolves custom roles and keeps unauthorized drafts and customer data 
  await db.prepare('INSERT INTO memberships (id,name,role,active) VALUES (?,?,?,1)').bind('local-owner','همکار','fulfilment').run();
  const order={id:'o1',number:'TP-1',customer:'PRIVATE_CUSTOMER_NAME',phone:'09121112233',address:'PRIVATE_ADDRESS',lines:[],total:0,subtotal:0,shipping:0,discount:0,coupon:'',status:'new',paymentStatus:'demo',createdAt:new Date().toISOString(),owner:'other',trackingCode:'',notes:'',timeline:[]};
  await db.prepare('INSERT INTO orders (id,owner,number,status,data,created_at) VALUES (?,?,?,?,?,?)').bind(order.id,order.owner,order.number,order.status,JSON.stringify(order),order.createdAt).run();
- const env={DB:db,LOCAL_DEV:'1'};let res=await worker.fetch(new Request('https://test.local/admin/orders/'),env);let html=await res.text();assert.equal(res.status,200);assert.ok(html.includes(order.customer));assert.ok(!html.includes('SECRET_DRAFT_NAME'));
+ const env={DB:db,LOCAL_DEV:'1'};let res=await worker.fetch(new Request('https://test.local/cms/orders/'),env);let html=await res.text();assert.equal(res.status,200);assert.ok(html.includes(order.customer));assert.ok(!html.includes('SECRET_DRAFT_NAME'));
  res=await worker.fetch(new Request('https://test.local/product/linen-natural/?preview=p1'),env);assert.equal(res.status,403);
  await db.prepare('UPDATE memberships SET role=? WHERE id=?').bind('content_manager','local-owner').run();res=await worker.fetch(new Request('https://test.local/admin/'),env);html=await res.text();assert.ok(!html.includes(order.customer));assert.ok(!html.includes(order.phone));assert.ok(!html.includes('SECRET_DRAFT_NAME'));
 });

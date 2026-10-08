@@ -9,3 +9,5 @@
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
 .hero-title-line{display:block}.hero-title-line{white-space:nowrap}@media(max-width:370px){.hero h1{font-size:2.3rem}}
+
+.pages-demo-bar{min-height:42px;display:flex;align-items:center;justify-content:center;gap:28px;padding:8px 20px;background:#eee6d8;color:#3d493f;font-size:11px;border-bottom:1px solid #e0d5c1}.pages-demo-bar div{display:flex;gap:12px}.pages-demo-bar button{font-size:11px;text-decoration:underline;text-underline-offset:4px;white-space:nowrap}.pages-demo-error{padding:16px;margin:0;background:#f5dfd7;color:#7d3021;text-align:center}@media(max-width:600px){.pages-demo-bar{gap:8px;flex-direction:column;min-height:62px;text-align:center}}

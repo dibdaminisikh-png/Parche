@@ -1,0 +1,10 @@
+import {build} from 'esbuild';
+import {spawnSync} from 'node:child_process';
+import {mkdir} from 'node:fs/promises';
+const base=process.env.PAGES_BASE||'/Parche/';
+const result=spawnSync('npm',['exec','vite','build','--','--mode','pages'],{stdio:'inherit',env:{...process.env,PAGES_BASE:base}});
+if(result.status!==0)process.exit(result.status||1);
+await mkdir('.runtime',{recursive:true});
+await build({entryPoints:['scripts/export-pages.tsx'],outfile:'.runtime/export-pages.mjs',bundle:true,platform:'node',format:'esm',packages:'external',jsx:'automatic',define:{__SITE_BASE__:JSON.stringify(base),__STATIC_DEMO__:'true'}});
+const exported=spawnSync('node',['.runtime/export-pages.mjs'],{stdio:'inherit',env:{...process.env,PAGES_BASE:base}});
+process.exit(exported.status||0);

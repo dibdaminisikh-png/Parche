@@ -21,3 +21,9 @@ Performance synthetic mobile با CPU 4× و network 1.6Mbps/150ms در فایل
 آخرین آزمون synthetic موبایل پس از اصلاح بارگیری فونت و فشرده‌سازی Node: Home cold-cache LCP=1148ms و CLS=0.002607. Category و Product در همان context با cache گرم LCP=236/288ms و CLS=0؛ این دو عدد نباید به‌عنوان cold-cache گزارش شوند. شرایط CPU 4× و network 1.6Mbps با latency150ms بودند. INP آزمایش میدانی نشده است.
 
 بازبینی نهایی: ۴۷ بررسی مرورگر نسخه به‌روز روی localhost:3004 موفق شد؛ ۴۴ مسیر، checkout آزمایشی، autosave/preview/publish و responsive موبایل، بدون خطای JavaScript. کنترل نسخه با constraint اتمی DB انجام می‌شود و draft_data نسخه زنده را حفظ می‌کند. صفحات عمومی snapshot بدون داده کاربر دارند و cacheable هستند؛ حساب، سبد، مدیریت و preview private/no-store باقی می‌مانند.
+
+## راستی‌آزمایی نسخه تست GitHub Pages
+- ۱۰ آزمون واحد/یکپارچه، از جمله base و CMS alias، draft/public snapshot و Checkout محلی، موفق.
+- ۱۲۷ فایل HTML مستقیم با status 200، یک H1 و noindex,nofollow؛ تمام href/src/action و فونت‌ها زیر /Parche/ بررسی شدند.
+- Playwright: سبد ۲٫۵ متری، Checkout محلی، autosave/preview/publish/reload، استقلال مرورگر دوم، upload تصویر IndexedDB و بازیابی آن، جستجو query-based، ۹ layout موبایل و reset موفق. خطای JavaScript صفر.
+- Build سروری Worker/Node نیز حفظ شده و موفق است. این نتایج Pages آزمون production backend یا Field CWV نیستند.
